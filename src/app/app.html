@@ -1,0 +1,4 @@
+<form [formGroup]="form">
+    <app-ocurrence-type-chooser formControlName="ocurrenceType"></app-ocurrence-type-chooser>
+</form>
+<pre>{{form.value | json}}</pre>

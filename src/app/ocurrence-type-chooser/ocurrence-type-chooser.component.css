@@ -1,0 +1,9 @@
+.button-group button {
+    display: inline-block;
+    width: 175px;
+    height: 30px;
+}
+
+.active {
+    background-color: lightskyblue;
+}

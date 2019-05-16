@@ -1,0 +1,5 @@
+<div class="button-group">
+  <button type='button' [ngClass]="{active: isDailyActive}" (click)="onDaily()">Daily</button>
+  <button type='button' [ngClass]="{active: isWeeklyActive}" (click)="onWeekly()">Weekly</button>
+  <button type='button' [ngClass]="{active: isMonthlyActive}" (click)="onMonthly()">Monthly</button>
+</div>
