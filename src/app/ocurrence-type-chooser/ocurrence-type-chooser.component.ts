@@ -1,5 +1,5 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms'
 import { OcurrenceTypes } from './ocurrence-types.enum';
 
 @Component({
@@ -7,11 +7,8 @@ import { OcurrenceTypes } from './ocurrence-types.enum';
   templateUrl: './ocurrence-type-chooser.component.html',
   styleUrls: ['./ocurrence-type-chooser.component.css'],
   providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => OcurrenceTypeChooserComponent),
-      multi: true
-    }
+    { provide: NG_VALIDATORS, useExisting: forwardRef(() => OcurrenceTypeChooserComponent), multi: true },
+    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => OcurrenceTypeChooserComponent), multi: true }
   ]
 })
 export class OcurrenceTypeChooserComponent implements OnInit, ControlValueAccessor {
@@ -23,7 +20,7 @@ export class OcurrenceTypeChooserComponent implements OnInit, ControlValueAccess
   public get isDailyActive() { return this.value === OcurrenceTypes.Daily; }
   public get isWeeklyActive() { return this.value === OcurrenceTypes.Weekly; }
   public get isMonthlyActive() { return this.value === OcurrenceTypes.Monthly; }
-  
+
   constructor() { }
   ngOnInit() { }
 
