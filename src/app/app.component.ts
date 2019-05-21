@@ -11,9 +11,11 @@ export class AppComponent {
   form: FormGroup;
 
   public get ocurrenceType() { return this.form.controls["ocurrenceType"]; }
+  public get range() { return this.form.controls["range"]; }
   constructor(fb: FormBuilder) {
     this.form = fb.group({
-      ocurrenceType: OcurrenceTypes.Daily
+      ocurrenceType: OcurrenceTypes.Daily,
+      range: null
     })
   }
 }

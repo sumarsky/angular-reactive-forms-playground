@@ -1,5 +1,7 @@
 <form [formGroup]="form">
     <app-ocurrence-type-chooser formControlName="ocurrenceType"></app-ocurrence-type-chooser>
-    <app-date-range></app-date-range>
+    <app-date-range formControlName="range"></app-date-range>
 </form>
 <pre>{{form.value | json}}</pre>
+<pre>{{range.errors | json}}</pre>
+<pre>{{form.errors | json}}</pre>

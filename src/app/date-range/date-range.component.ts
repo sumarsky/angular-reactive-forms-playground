@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, forwardRef } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ValidatorFn, ValidationErrors, Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
+import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, Validator, AbstractControl, ValidationErrors, ValidatorFn, NG_VALIDATORS } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators'
 
@@ -8,17 +8,16 @@ import { takeUntil } from 'rxjs/operators'
   templateUrl: './date-range.component.html',
   styleUrls: ['./date-range.component.css'],
   providers: [
-    { provide: NG_VALIDATORS, useExisting: DateRangeComponent, multi: true },
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => DateRangeComponent), multi: true, },
+    { provide: NG_VALIDATORS, useExisting: forwardRef(() => DateRangeComponent), multi: true }
   ]
 })
 export class DateRangeComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   public form: FormGroup;
 
-  public disabled: boolean;
+  public isDisabled: boolean;
   public onChanged: any = () => { };
   public onTouched: any = () => { };
-  public onValidatorChange: any = () => { };
 
   get dateFrom() { return this.form.controls["dateFrom"] }
   get dateTo() { return this.form.controls["dateTo"] }
@@ -26,8 +25,8 @@ export class DateRangeComponent implements OnInit, OnDestroy, ControlValueAccess
   private unsubscribe = new Subject();
   constructor(fb: FormBuilder) {
     this.form = fb.group({
-      dateFrom: null,
-      dateTo: null
+      dateFrom: [null, this.isDisabled],
+      dateTo: [null, this.isDisabled]
     });
   }
   ngOnInit() { }
@@ -50,23 +49,29 @@ export class DateRangeComponent implements OnInit, OnDestroy, ControlValueAccess
     this.onTouched = fn;
   }
   setDisabledState?(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    this.isDisabled = isDisabled;
+
+    if (isDisabled) {
+      this.dateFrom.disable();
+      this.dateTo.disable();
+    } else {
+      this.dateFrom.enable();
+      this.dateTo.enable();
+    }
   }
 
   validate(control: AbstractControl): ValidationErrors {
-    return this.validatorFunction(control)
-  }
-  registerOnValidatorChange?(fn: () => void): void {
-    throw new Error("Method not implemented.");
+    return this.validatorFunction(control);
   }
 
   private validatorFunction: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-    const dateFrom = control.get('dateFrom');
-    const dateTo = control.get('dateTo');
+    const isStartAfterEnd = this.dateFrom.value && this.dateTo.value &&
+      new Date(this.dateFrom.value) > new Date(this.dateTo.value);
 
-    return dateFrom && dateTo &&
-      dateFrom.value > dateTo.value
-      ? { 'start-date-after-end-date': true }
-      : null;
+    if (isStartAfterEnd) {
+      return { 'date-range': 'start-date-after-end-date' };
+    }
+
+    return null;
   };
 }
