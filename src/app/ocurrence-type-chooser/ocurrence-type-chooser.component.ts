@@ -1,4 +1,4 @@
-import { Component, OnInit, forwardRef } from '@angular/core';
+import { Component, OnInit, forwardRef, Input, EventEmitter, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms'
 import { OcurrenceTypes } from './ocurrence-types.enum';
 
@@ -11,10 +11,14 @@ import { OcurrenceTypes } from './ocurrence-types.enum';
   ]
 })
 export class OcurrenceTypeChooserComponent implements OnInit, ControlValueAccessor {
-  public value: number;
+  @Input('ngModel') value: number;
+  @Output('ngModelChange') valueChanged: EventEmitter<number> = new EventEmitter();
   public disabled: boolean;
-  public onChanged: any = () => { };
+
   public onTouched: any = () => { };
+  public onChanged: any = (obj: number) => {
+    this.valueChanged.emit(obj);
+  };
 
   public get isDailyActive() { return this.value === OcurrenceTypes.Daily; }
   public get isWeeklyActive() { return this.value === OcurrenceTypes.Weekly; }

@@ -10,7 +10,7 @@ import { DateTimeRange } from './date-time-range/date-time-range';
 })
 export class AppComponent {
   form: FormGroup;
-
+  foo: number;
   public get ocurrenceType() { return this.form.controls["ocurrenceType"]; }
   public get range() { return this.form.controls["range"]; }
   public get timeSpan() { return this.form.controls["timeSpan"]; }
