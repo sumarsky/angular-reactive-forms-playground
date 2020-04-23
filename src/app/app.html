@@ -1,8 +1,7 @@
 <form [formGroup]="form">
-    <app-ocurrence-type-chooser formControlName="ocurrenceType"></app-ocurrence-type-chooser>
-    <app-date-range formControlName="range"></app-date-range>
-    <app-date-time-range formControlName="timeSpan"></app-date-time-range>
-
+  <app-ocurrence-type-chooser formControlName="ocurrenceType"></app-ocurrence-type-chooser>
+  <app-date-range formControlName="range"></app-date-range>
+  <app-date-time-range formControlName="timeSpan"></app-date-time-range>
 </form>
 <app-ocurrence-type-chooser [(ngModel)]="foo"></app-ocurrence-type-chooser>
 <pre>{{foo | json}}</pre>
@@ -10,3 +9,7 @@
 <pre>{{range.errors | json}}</pre>
 <pre>{{timeSpan.errors | json}}</pre>
 <pre>{{form.errors | json}}</pre>
+
+<hr />
+
+<app-conditional-require></app-conditional-require>

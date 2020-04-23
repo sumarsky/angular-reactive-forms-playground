@@ -1,0 +1,18 @@
+<form [formGroup]="form">
+  <pre>{{ form.value | json }}</pre>
+  <pre>{{ form.valid | json }}</pre>
+
+  <label for="isActive">is active</label>
+  <input type="checkbox" id="isActive" formControlName="isActive" />
+
+  <br />
+  <label for="name">name</label>
+  <input
+    type="textbox"
+    id="name"
+    formControlName="name"
+    [requiredIf]="!!isActive.value"
+  />
+
+  <pre>{{ form.controls["name"].errors | json }}</pre>
+</form>
